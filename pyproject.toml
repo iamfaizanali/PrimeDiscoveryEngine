@@ -1,159 +1,73 @@
-[tool.poetry]
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
 name = "prime-discovery-engine"
 version = "0.1.0"
-description = "Autonomous Mathematical Discovery Engine for exploring hidden structure in prime numbers"
-authors = ["iamfaizanali <your_email@example.com>"]
-license = "MIT"
+description = "Autonomous Mathematical Discovery Platform for Prime Numbers"
 readme = "README.md"
-repository = "https://github.com/iamfaizanali/PrimeDiscoveryEngine"
-documentation = "https://github.com/iamfaizanali/PrimeDiscoveryEngine/tree/main/docs"
-keywords = ["prime-numbers", "mathematical-discovery", "ai-research", "symbolic-regression", "hypothesis-generation"]
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Faizan Ali Bilagi", email = "faizan@example.com"}]
+keywords = ["mathematics", "prime-numbers", "genetic-algorithms", "symbolic-regression", "AI", "discovery"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering :: Mathematics",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
 ]
 
-packages = [
-    { include = "prime_discovery" }
+dependencies = [
+    "sympy>=1.12",
+    "numpy>=1.21.0",
+    "scikit-learn>=1.0.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "pyyaml>=6.0",
+    "loguru>=0.7.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.23.0",
+    "click>=8.0.0",
 ]
 
-[tool.poetry.dependencies]
-python = "^3.12"
-torch = "^2.2.0"
-jax = "^0.4.20"
-jaxlib = "^0.4.20"
-sympy = "^1.12"
-numpy = "^1.24.0"
-scipy = "^1.12.0"
-polars = "^0.20.0"
-duckdb = "^0.9.0"
-ray = { version = "^2.10.0", extras = ["tune"] }
-fastapi = "^0.109.0"
-uvicorn = "^0.27.0"
-pydantic = "^2.5.0"
-pydantic-settings = "^2.1.0"
-pyyaml = "^6.0"
-python-dotenv = "^1.0.0"
-loguru = "^0.7.2"
-tenacity = "^8.2.3"
-tqdm = "^4.67.0"
-pandas = "^2.2.0"
-scikit-learn = "^1.4.0"
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=22.0.0",
+    "flake8>=4.0.0",
+    "mypy>=0.990",
+    "isort>=5.10.0",
+]
+docs = [
+    "sphinx>=5.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+]
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^7.4.0"
-pytest-cov = "^4.1.0"
-pytest-asyncio = "^0.23.0"
-pytest-xdist = "^3.5.0"
-black = "^24.1.0"
-ruff = "^0.2.0"
-mypy = "^1.8.0"
-isort = "^5.13.0"
-pre-commit = "^3.6.0"
-ipython = "^8.20.0"
-jupyter = "^1.0.0"
-jupyter-client = "^8.6.0"
-ipykernel = "^6.29.0"
-notebook = "^7.1.0"
-nbconvert = "^7.16.0"
+[project.urls]
+Homepage = "https://github.com/iamfaizanali/PrimeDiscoveryEngine"
+Repository = "https://github.com/iamfaizanali/PrimeDiscoveryEngine.git"
+Issues = "https://github.com/iamfaizanali/PrimeDiscoveryEngine/issues"
 
-[tool.poetry.group.docs.dependencies]
-sphinx = "^7.2.0"
-sphinx-rtd-theme = "^2.0.0"
-sphinx-autodoc-typehints = "^1.25.0"
-myst-parser = "^2.0.0"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[project.scripts]
+prime-discovery = "prime_discovery.cli.main:cli"
 
 [tool.black]
 line-length = 100
-target-version = ['py312']
+target-version = ['py39', 'py310', 'py311']
 include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-)/
-'''
 
-[tool.ruff]
-line-length = 100
-target-version = "py312"
-exclude = [
-    ".git",
-    "__pycache__",
-    ".venv",
-    "build",
-    "dist",
-    ".mypy_cache",
-]
-
-[tool.ruff.lint]
-select = [
-    "E",      # pycodestyle errors
-    "W",      # pycodestyle warnings
-    "F",      # pyflakes
-    "I",      # isort
-    "B",      # flake8-bugbear
-    "C4",     # flake8-comprehensions
-    "UP",     # pyupgrade
-    "ARG",    # flake8-unused-arguments
-    "SIM",    # flake8-simplify
-]
-ignore = [
-    "E501",   # line too long (handled by black)
-    "B008",   # do not perform function calls in argument defaults
-]
-
-[tool.ruff.lint.isort]
-known-first-party = ["prime_discovery"]
+[tool.isort]
+profile = "black"
+line_length = 100
 
 [tool.mypy]
-python_version = "3.12"
+python_version = "3.9"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false
-disallow_incomplete_defs = false
-check_untyped_defs = true
-no_implicit_optional = true
-warn_redundant_casts = true
-warn_unused_ignores = true
-warn_no_return = true
-strict_optional = true
-follow_imports = "normal"
-ignore_missing_imports = true
-
-[[tool.mypy.overrides]]
-module = [
-    "torch.*",
-    "jax.*",
-    "ray.*",
-]
-ignore_missing_imports = true
-
-[tool.pytest.ini_options]
-minversion = "7.0"
-testpaths = ["tests"]
-python_files = ["test_*.py", "*_test.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"]
-addopts = "-v --strict-markers --tb=short"
-markers = [
-    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
-    "integration: marks tests as integration tests",
-    "unit: marks tests as unit tests",
-]
